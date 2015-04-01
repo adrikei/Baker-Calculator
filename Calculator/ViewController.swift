@@ -11,10 +11,11 @@ import UIKit
 class ViewController: UIViewController {
 
 	@IBOutlet weak var display: UILabel!
-
+	@IBOutlet weak var subDisplay: UILabel!
+	
 	var userIsInTheMiddleOfTypingANumber = false
 	var firstValue: Double!
-	var op: String!
+	var op: String! = ""
 	
 	var displayValue: Double {
 		get{
@@ -27,11 +28,15 @@ class ViewController: UIViewController {
 	
 	@IBAction func appendDigit(sender: UIButton) {
 		let digit = sender.currentTitle!
-		if userIsInTheMiddleOfTypingANumber {
-			display.text = display.text! + digit
-		}else{
-			display.text = digit
-			userIsInTheMiddleOfTypingANumber = true
+		println(display.text!.rangeOfString("."))
+		if digit != "." || display.text!.rangeOfString(".") == nil{
+			if userIsInTheMiddleOfTypingANumber {
+				display.text = display.text! + digit
+			}else{
+				display.text = digit
+				userIsInTheMiddleOfTypingANumber = true
+			}
+			subDisplay.text = subDisplay.text! + digit
 		}
 	}
 	
@@ -45,6 +50,9 @@ class ViewController: UIViewController {
 			case "+": displayValue = self.firstValue + secondValue
 			default: break
 		}
+		self.firstValue = displayValue;
+		op  = ""
+		subDisplay.text = ""
 	}
 	
 	func resetDisplay() {
@@ -54,8 +62,14 @@ class ViewController: UIViewController {
 	
 	@IBAction func operate(sender: UIButton) {
 		firstValue = displayValue
-		resetDisplay()
 		op = sender.currentTitle!
+		if subDisplay.text == ""{
+			println(display.text)
+			subDisplay.text = "\(displayValue)" + op
+		}else{
+			subDisplay.text = subDisplay.text! + op
+		}
+		resetDisplay()
 	}
 	
 }
