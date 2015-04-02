@@ -25,10 +25,16 @@ class ViewController: UIViewController {
 			display.text = "\(newValue)"
 		}
 	}
+	@IBAction func clearCalculator(sender: UIButton) {
+		op = ""
+		display.text = "0"
+		firstValue = nil
+		subDisplay.text = " "
+		userIsInTheMiddleOfTypingANumber = false
+	}
 	
 	@IBAction func appendDigit(sender: UIButton) {
 		let digit = sender.currentTitle!
-		println(display.text!.rangeOfString("."))
 		if digit != "." || display.text!.rangeOfString(".") == nil{
 			if userIsInTheMiddleOfTypingANumber {
 				display.text = display.text! + digit
@@ -52,7 +58,7 @@ class ViewController: UIViewController {
 		}
 		self.firstValue = displayValue;
 		op  = ""
-		subDisplay.text = ""
+		subDisplay.text = " "
 	}
 	
 	func resetDisplay() {
@@ -63,8 +69,7 @@ class ViewController: UIViewController {
 	@IBAction func operate(sender: UIButton) {
 		firstValue = displayValue
 		op = sender.currentTitle!
-		if subDisplay.text == ""{
-			println(display.text)
+		if subDisplay.text == " "{
 			subDisplay.text = "\(displayValue)" + op
 		}else{
 			subDisplay.text = subDisplay.text! + op
